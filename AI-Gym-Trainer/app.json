@@ -22,7 +22,10 @@
       "react-native-vision-camera"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,14 +33,18 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.gunalk.AIGymTrainer"
+      "package": "com.gunalk.AIGymTrainer",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "bfe667f7-6426-49b4-b101-c14f6def180d"
+        "projectId": "0b4af6bc-a340-4ede-b264-de06333bb282"
       }
     },
     "owner": "gunalk"
