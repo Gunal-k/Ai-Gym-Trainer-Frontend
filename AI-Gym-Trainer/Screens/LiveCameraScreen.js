@@ -63,25 +63,28 @@ const LiveCameraScreen = ({ navigation }) => {
     socket.current.onerror = (error) => Alert.alert('WebSocket Error', 'Connection failed.');
     
     socket.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      // Add a check to ensure there's data before parsing
+      if (event.data) {
+        const data = JSON.parse(event.data);
 
-      if (data.feedback) {
-        setFeedback(data.feedback);
+        if (data.feedback) {
+          setFeedback(data.feedback);
 
-        const now = Date.now();
-        const isNewFeedback = data.feedback !== lastSpokenFeedback.current;
-        const hasEnoughTimePassed = now - lastSpokenTime.current > SPEECH_INTERVAL;
+          const now = Date.now();
+          const isNewFeedback = data.feedback !== lastSpokenFeedback.current;
+          const hasEnoughTimePassed = now - lastSpokenTime.current > SPEECH_INTERVAL;
 
-        if (audioFeedbackRef.current && (isNewFeedback || hasEnoughTimePassed)) {
-          setSpeechQueue(data.feedback);
-          lastSpokenFeedback.current = data.feedback;
-          lastSpokenTime.current = now;
+          if (audioFeedbackRef.current && (isNewFeedback || hasEnoughTimePassed)) {
+            setSpeechQueue(data.feedback);
+            lastSpokenFeedback.current = data.feedback;
+            lastSpokenTime.current = now;
+          }
         }
-      }
 
-      // 🟢 Add these lines
-      if (data.reps !== undefined) setReps(data.reps);
-      if (data.exercise) setExercise(data.exercise);
+        // 🟢 Add these lines
+        if (data.reps !== undefined) setReps(data.reps);
+        if (data.exercise) setExercise(data.exercise);
+      }
     };
 
 
